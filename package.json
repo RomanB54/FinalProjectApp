@@ -6,7 +6,7 @@
     "test": "jest",
     "lint": "prettier --check . && eslint . && stylelint \"**/*.css\"",
     "lint:fix": "prettier --write . && eslint . --fix && stylelint \"**/*.css\" --fix",
-    "build": "webpack --config webpack.config.js --mode=development",
+    "build": "webpack --config webpack.config.ts --mode=development",
     "build:dev": "webpack --mode=development",
     "dev": "npx -y node-static dist",
     "serve": "webpack serve --config webpack.config.ts",
