@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import { Layout } from './components/layout/Layout';
+import {
+  OPENWEATHER_API_KEY,
+  IPINFO_TOKEN,
+  YANDEX_MAPS_API_KEY,
+} from './config';
 
 type CityWithCoordinates = {
   city: string;
@@ -43,7 +48,7 @@ export default function App() {
   > => {
     try {
       const response = await fetch(
-        'https://ipinfo.io/json?token=7ce0407bb7be70',
+        `https://ipinfo.io/json?token=${IPINFO_TOKEN}`,
       );
       const jsonResponse = await response.json();
       const cityByIP = jsonResponse.city;
@@ -67,7 +72,7 @@ export default function App() {
   };
 
   const updateMapLink = (coordinates: number[]) => {
-    return `https://static-maps.yandex.ru/v1?lang=ru_RU&ll=${coordinates.toString()}&spn=0.3,0.3&size=400,400&apikey=e091f93b-1d71-4a7d-ae59-8369de3754d8`;
+    return `https://static-maps.yandex.ru/v1?lang=ru_RU&ll=${coordinates.toString()}&spn=0.3,0.3&size=400,400&apikey=${YANDEX_MAPS_API_KEY}`;
   };
 
   const getWeatherAndCoordinates = async (
@@ -75,7 +80,7 @@ export default function App() {
   ): Promise<CityWithCoordinates | undefined> => {
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=50e9562e52bdc95310309ebf4c74c77c&units=metric&lang=en`,
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${OPENWEATHER_API_KEY}&units=metric&lang=en`,
       );
       const data = await response.json();
 
