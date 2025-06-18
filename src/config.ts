@@ -1,3 +1,0 @@
-export const OPENWEATHER_API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY;
-export const IPINFO_TOKEN = process.env.REACT_APP_IPINFO_TOKEN;
-export const YANDEX_MAPS_API_KEY = process.env.REACT_APP_YANDEX_MAPS_API_KEY;
