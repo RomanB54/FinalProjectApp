@@ -13,7 +13,7 @@ const config: Configuration = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: './',
+    publicPath: '/FinalProjectApp/',
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
