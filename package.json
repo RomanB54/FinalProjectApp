@@ -94,5 +94,6 @@
     "extends": [
       "plugin:storybook/recommended"
     ]
-  }
+  },
+  "homepage": "https://romanb54.github.io/FinalProjectApp/"
 }
