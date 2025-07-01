@@ -496,7 +496,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \***********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   IPINFO_TOKEN: () => (/* binding */ IPINFO_TOKEN),\n/* harmony export */   OPENWEATHER_API_KEY: () => (/* binding */ OPENWEATHER_API_KEY),\n/* harmony export */   YANDEX_MAPS_API_KEY: () => (/* binding */ YANDEX_MAPS_API_KEY)\n/* harmony export */ });\nvar OPENWEATHER_API_KEY = undefined;\nvar IPINFO_TOKEN = undefined;\nvar YANDEX_MAPS_API_KEY = undefined;\n\n//# sourceURL=webpack://storybook2/./src/config.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   IPINFO_TOKEN: () => (/* binding */ IPINFO_TOKEN),\n/* harmony export */   OPENWEATHER_API_KEY: () => (/* binding */ OPENWEATHER_API_KEY),\n/* harmony export */   YANDEX_MAPS_API_KEY: () => (/* binding */ YANDEX_MAPS_API_KEY)\n/* harmony export */ });\nvar OPENWEATHER_API_KEY = '50e9562e52bdc95310309ebf4c74c77c';\nvar IPINFO_TOKEN = '7ce0407bb7be70';\nvar YANDEX_MAPS_API_KEY = 'e091f93b-1d71-4a7d-ae59-8369de3754d8';\n\n//# sourceURL=webpack://storybook2/./src/config.ts?");
 
 /***/ }),
 
