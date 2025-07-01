@@ -1,6 +1,11 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import type { Configuration } from 'webpack';
+import type { Configuration as WebpackConfiguration } from 'webpack';
+import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+
+interface Configuration extends WebpackConfiguration {
+  devServer?: WebpackDevServerConfiguration;
+}
 
 const config: Configuration = {
   mode: 'development',
@@ -8,7 +13,7 @@ const config: Configuration = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: '/FinalProjectApp/',
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
