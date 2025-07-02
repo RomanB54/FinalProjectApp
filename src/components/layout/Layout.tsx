@@ -19,39 +19,32 @@ export const Layout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const initialNavigated = useRef(false);
+  const hasNavigated = useRef(false);
 
   useEffect(() => {
-    if (initialNavigated.current) {
-      return; // Already handled initial navigation
-    }
+    if (hasNavigated.current) return;
 
     if (!city && !currentCity) {
-      console.log(
-        'Layout: No city in URL or state, getting city by location...',
-      );
       dispatch(getCityByLocation());
       return;
     }
-
     if (currentCity) {
-      const expectedCity = encodeURIComponent(currentCity).toLowerCase();
-      const urlCity = city ? encodeURIComponent(city).toLowerCase() : '';
+      const urlCity = city ? decodeURIComponent(city).toLowerCase() : '';
+      const reduxCity = currentCity.toLowerCase();
 
-      if (urlCity !== expectedCity) {
+      if (urlCity !== reduxCity) {
         const basePath = '/FinalProjectApp';
         const targetPath = `${basePath}/weather/${encodeURIComponent(currentCity)}`;
 
         console.log(
           `Layout: Navigating from ${location.pathname} to ${targetPath}`,
         );
-        navigate(targetPath, { replace: !city });
-        initialNavigated.current = true;
+        navigate(targetPath, { replace: true });
+        hasNavigated.current = true;
       } else {
-        initialNavigated.current = true;
+        hasNavigated.current = true;
+        dispatch(fetchWeatherRequest());
       }
-
-      dispatch(fetchWeatherRequest());
     }
   }, [city, currentCity, dispatch, navigate, location.pathname]);
 
