@@ -1,9 +1,8 @@
 import React, { Suspense, lazy } from 'react';
-
-import { Link, Route, Routes } from 'react-router-dom';
-
+import { Link, Navigate, Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { StoreApp } from './store';
+
 
 const SignIn = lazy(() => import('./components/signin/Signin'));
 const Layout = lazy(() => import('./components/layout/Layout'));
@@ -36,7 +35,7 @@ export default function App() {
           <Route path="/" element={<SignIn />} />
           <Route path="/weather/:city?" element={<Layout />} />
           <Route path="/about" element={<About />} />
-          <Route path="*" element={<div>404</div>} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
     </div>

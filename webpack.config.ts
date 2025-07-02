@@ -34,10 +34,12 @@ const config: Configuration = {
   },
   plugins: [new HtmlWebpackPlugin({ template: 'public/index.html' })],
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: '/FinalProjectApp/index.html',
+    },
     static: {
       directory: path.join(__dirname, 'dist'),
-      publicPath: '/',
+      publicPath: '/FinalProjectApp/',
     },
     open: true,
   },
