@@ -13,8 +13,9 @@ export const HistoryList: React.FC = () => {
     console.log('HistoryList: clicked city:', city);
     dispatch(addCityName(city));
      const currentPath = window.location.pathname;
-    const targetPath = `/weather/${encodeURIComponent(city)}`;
-     if (currentPath !== targetPath) {
+     const basePath = '/FinalProjectApp';
+    const targetPath = `${basePath}/weather/${encodeURIComponent(city)}`;
+     if (location.pathname !== targetPath) {
       console.log(`Navigating from ${currentPath} to ${targetPath}`);
       navigate(targetPath, { replace: false });
     } else {
