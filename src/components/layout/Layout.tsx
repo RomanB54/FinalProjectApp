@@ -46,7 +46,7 @@ export const Layout: React.FC = () => {
         decodeURIComponent(city).toLowerCase() !== currentCity.toLowerCase())
     ) {
       navigate(`/weather/${encodeURIComponent(currentCity)}`, {
-        replace: false,
+        replace: true,
       });
     }
   }, [currentCity, city, navigate]);
