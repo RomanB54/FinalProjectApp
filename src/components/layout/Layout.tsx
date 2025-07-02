@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Header } from '../header/Header';
 import { InputWithImage } from '../inputWithImage/InputWithImage';
 import { WeatherInfo } from '../weatherInfo/WeatherInfo';
@@ -16,68 +16,50 @@ export const Layout: React.FC = () => {
     (state: StoreApp) => state.cities.currentCity,
   );
   const dispatch = useAppDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
-  useEffect(() => {
-    // This effect runs only when:
-    // 1. We are on the base '/weather' route (no city param)
-    // 2. We have a 'currentCity' from Redux (meaning getCityByLocation has finished)
-    // 3. The current URL path does NOT already contain the currentCity
-    const basePath = '/FinalProjectApp'; // Make sure this matches your BrowserRouter basename
-    const currentFullPath = location.pathname;
+  const location = useLocation();
 
-    if (
-      !city &&
-      currentCity &&
-      !currentFullPath.includes(encodeURIComponent(currentCity))
-    ) {
-      const targetPath = `${basePath}/weather/${encodeURIComponent(currentCity)}`;
-      console.log(
-        `Layout (Initial Load): Navigating from ${currentFullPath} to ${targetPath}`,
-      );
-      // Use replace:true here, as this is effectively the "final" URL for this initial load
-      navigate(targetPath, { replace: true });
+  const initialNavigated = useRef(false);
+
+  useEffect(() => {
+    if (initialNavigated.current) {
+      return; // Already handled initial navigation
     }
-  }, [city, currentCity, navigate, location.pathname]);
 
-  useEffect(() => {
-    console.log('Layout: location changed:', location.pathname);
-  }, [location]);
-
-  useEffect(() => {
-    if (city) {
-      console.log('Layout: URL city param:', city);
-      dispatch(setCurrentCity(decodeURIComponent(city)));
-    }
-  }, [city, dispatch]);
-
-  useEffect(() => {
     if (!city && !currentCity) {
       console.log(
         'Layout: No city in URL or state, getting city by location...',
       );
       dispatch(getCityByLocation());
+      return;
     }
-  }, [city, currentCity, dispatch]);
 
-  useEffect(() => {
-    if (
-      currentCity &&
-      (!city ||
-        decodeURIComponent(city).toLowerCase() !== currentCity.toLowerCase())
-    ) {
-      navigate(`/weather/${encodeURIComponent(currentCity)}`, {
-        replace: false,
-      });
-    }
-  }, [currentCity, city, navigate]);
-
-  useEffect(() => {
     if (currentCity) {
-      console.log('Layout: Fetching weather for', currentCity);
+      const expectedCity = encodeURIComponent(currentCity).toLowerCase();
+      const urlCity = city ? encodeURIComponent(city).toLowerCase() : '';
+
+      if (urlCity !== expectedCity) {
+        const basePath = '/FinalProjectApp';
+        const targetPath = `${basePath}/weather/${encodeURIComponent(currentCity)}`;
+
+        console.log(
+          `Layout: Navigating from ${location.pathname} to ${targetPath}`,
+        );
+        navigate(targetPath, { replace: !city });
+        initialNavigated.current = true;
+      } else {
+        initialNavigated.current = true;
+      }
+
       dispatch(fetchWeatherRequest());
     }
-  }, [currentCity, dispatch]);
+  }, [city, currentCity, dispatch, navigate, location.pathname]);
+
+  useEffect(() => {
+    if (city) {
+      dispatch(setCurrentCity(decodeURIComponent(city)));
+    }
+  }, [city, dispatch]);
 
   return (
     <>
