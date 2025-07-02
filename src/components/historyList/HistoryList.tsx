@@ -10,8 +10,17 @@ export const HistoryList: React.FC = () => {
   const navigate = useNavigate();
 
   const handleHistoryCityClick = (city: string) => {
+    console.log('HistoryList: clicked city:', city);
     dispatch(addCityName(city));
-    navigate(`/weather/${encodeURIComponent(city)}`, { replace: false });
+     const currentPath = window.location.pathname;
+    const targetPath = `/weather/${encodeURIComponent(city)}`;
+     if (currentPath !== targetPath) {
+      console.log(`Navigating from ${currentPath} to ${targetPath}`);
+      navigate(targetPath, { replace: false });
+    } else {
+      console.log('Already at target URL, no navigation needed.');
+    }
+    //navigate(`/weather/${encodeURIComponent(city)}`, { replace: false });
   };
 
   const citiesList = history.map((city, index) => (
