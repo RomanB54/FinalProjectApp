@@ -20,47 +20,61 @@ export const Layout: React.FC = () => {
   const location = useLocation();
 
   const initialNavigated = useRef(false);
+  useEffect(() => {
+    const basePath = '/FinalProjectApp';
+    const currentFullPath = location.pathname;
+
+    if (
+      !city &&
+      currentCity &&
+      !currentFullPath.includes(encodeURIComponent(currentCity))
+    ) {
+      const targetPath = `${basePath}/weather/${encodeURIComponent(currentCity)}`;
+      console.log(
+        `Layout (Initial Load): Navigating from ${currentFullPath} to ${targetPath}`,
+      );
+      navigate(targetPath, { replace: true });
+    }
+  }, [city, currentCity, navigate, location.pathname]);
 
   useEffect(() => {
-    if (initialNavigated.current) {
-      return; // Already handled initial navigation
-    }
+    console.log('Layout: location changed:', location.pathname);
+  }, [location]);
 
+  useEffect(() => {
+    if (city) {
+      console.log('Layout: URL city param:', city);
+      dispatch(setCurrentCity(decodeURIComponent(city)));
+    }
+  }, [city, dispatch]);
+
+  useEffect(() => {
     if (!city && !currentCity) {
       console.log(
         'Layout: No city in URL or state, getting city by location...',
       );
       dispatch(getCityByLocation());
-      return;
     }
-
-    if (currentCity) {
-      const expectedCity = encodeURIComponent(currentCity).toLowerCase();
-      const urlCity = city ? encodeURIComponent(city).toLowerCase() : '';
-
-      if (urlCity !== expectedCity) {
-        const basePath = '/FinalProjectApp';
-        const targetPath = `${basePath}/weather/${encodeURIComponent(currentCity)}`;
-
-        console.log(
-          `Layout: Navigating from ${location.pathname} to ${targetPath}`,
-        );
-        navigate(targetPath, { replace: !city });
-        initialNavigated.current = true;
-      } else {
-        initialNavigated.current = true;
-      }
-
-      dispatch(fetchWeatherRequest());
-    }
-  }, [city, currentCity, dispatch, navigate, location.pathname]);
-
+  }, [city, currentCity, dispatch]);
 
   useEffect(() => {
-    if (city) {
-      dispatch(setCurrentCity(decodeURIComponent(city)));
+    if (
+      currentCity &&
+      (!city ||
+        decodeURIComponent(city).toLowerCase() !== currentCity.toLowerCase())
+    ) {
+      navigate(`/weather/${encodeURIComponent(currentCity)}`, {
+        replace: false,
+      });
     }
-  }, [city, dispatch]);
+  }, [currentCity, city, navigate]);
+
+  useEffect(() => {
+    if (currentCity) {
+      console.log('Layout: Fetching weather for', currentCity);
+      dispatch(fetchWeatherRequest());
+    }
+  }, [currentCity, dispatch]);
 
   return (
     <>
