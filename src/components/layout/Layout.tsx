@@ -19,6 +19,28 @@ export const Layout: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
+    // This effect runs only when:
+    // 1. We are on the base '/weather' route (no city param)
+    // 2. We have a 'currentCity' from Redux (meaning getCityByLocation has finished)
+    // 3. The current URL path does NOT already contain the currentCity
+    const basePath = '/FinalProjectApp'; // Make sure this matches your BrowserRouter basename
+    const currentFullPath = location.pathname;
+
+    if (
+      !city &&
+      currentCity &&
+      !currentFullPath.includes(encodeURIComponent(currentCity))
+    ) {
+      const targetPath = `${basePath}/weather/${encodeURIComponent(currentCity)}`;
+      console.log(
+        `Layout (Initial Load): Navigating from ${currentFullPath} to ${targetPath}`,
+      );
+      // Use replace:true here, as this is effectively the "final" URL for this initial load
+      navigate(targetPath, { replace: true });
+    }
+  }, [city, currentCity, navigate, location.pathname]);
+
+  useEffect(() => {
     console.log('Layout: location changed:', location.pathname);
   }, [location]);
 
