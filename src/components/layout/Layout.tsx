@@ -28,7 +28,7 @@ export const Layout: React.FC = () => {
   useEffect(() => {
     if (currentCity && currentCity !== city) {
       navigate(`/weather/${encodeURIComponent(currentCity)}`, {
-        replace: true,
+        replace: false,
       });
     }
   }, [currentCity, city, navigate]);
