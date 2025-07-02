@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Header } from '../header/Header';
 import { InputWithImage } from '../inputWithImage/InputWithImage';
 import { WeatherInfo } from '../weatherInfo/WeatherInfo';
@@ -16,26 +16,8 @@ export const Layout: React.FC = () => {
     (state: StoreApp) => state.cities.currentCity,
   );
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const location = useLocation();
-
-  const initialNavigated = useRef(false);
-  useEffect(() => {
-    const basePath = '/FinalProjectApp';
-    const currentFullPath = location.pathname;
-
-    if (
-      !city &&
-      currentCity &&
-      !currentFullPath.includes(encodeURIComponent(currentCity))
-    ) {
-      const targetPath = `${basePath}/weather/${encodeURIComponent(currentCity)}`;
-      console.log(
-        `Layout (Initial Load): Navigating from ${currentFullPath} to ${targetPath}`,
-      );
-      navigate(targetPath, { replace: true });
-    }
-  }, [city, currentCity, navigate, location.pathname]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log('Layout: location changed:', location.pathname);
