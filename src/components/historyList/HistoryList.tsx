@@ -11,7 +11,7 @@ export const HistoryList: React.FC = () => {
 
   const handleHistoryCityClick = (city: string) => {
     dispatch(addCityName(city));
-    navigate(`/weather/${encodeURIComponent(city)}`);
+    navigate(`/weather/${encodeURIComponent(city)}`, { replace: false });
   };
 
   const citiesList = history.map((city, index) => (

@@ -1,8 +1,7 @@
-import React, { Suspense, lazy } from 'react';
-import { Link, Navigate, Route, Routes } from 'react-router-dom';
+import React, { Suspense, lazy, useEffect } from 'react';
+import { Link, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { StoreApp } from './store';
-
 
 const SignIn = lazy(() => import('./components/signin/Signin'));
 const Layout = lazy(() => import('./components/layout/Layout'));
@@ -10,6 +9,14 @@ const About = lazy(() => import('./components/About/About'));
 
 export default function App() {
   const logged = useSelector((state: StoreApp) => state.profile.logged);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (logged) {
+      navigate('/weather', { replace: true });
+    }
+  }, [logged, navigate]);
+
   return (
     <div className="weather-app">
       <div className="link-container">
