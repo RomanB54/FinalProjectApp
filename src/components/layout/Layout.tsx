@@ -39,18 +39,14 @@ export const Layout: React.FC = () => {
   }, [city, currentCity, dispatch]);
 
   useEffect(() => {
-    console.log('Layout: Redux currentCity:', currentCity, 'URL city:', city);
     if (
       currentCity &&
       (!city ||
         decodeURIComponent(city).toLowerCase() !== currentCity.toLowerCase())
     ) {
-      const targetPath = `/weather/${encodeURIComponent(currentCity)}`;
-      console.log(`Layout: Navigating to ${targetPath}`);
-      navigate(targetPath, { replace: false });
-      // navigate(`/weather/${encodeURIComponent(currentCity)}`, {
-      //   replace: false,
-      // })
+      navigate(`/weather/${encodeURIComponent(currentCity)}`, {
+        replace: false,
+      });
     }
   }, [currentCity, city, navigate]);
 

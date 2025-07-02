@@ -80,7 +80,7 @@ export const citiesSlice = createSlice({
     addCityName: (state, action: PayloadAction<string>) => {
       const cityName = action.payload;
       state.currentCity = cityName;
-      state.historyList = state.historyList.filter((city) => city !== cityName);
+      state.historyList = state.historyList.filter((c) => c !== cityName);
       state.historyList.unshift(cityName);
 
       if (state.historyList.length > 10) {

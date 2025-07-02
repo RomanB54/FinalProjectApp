@@ -1,5 +1,5 @@
 import { AppDispatch } from '.';
-import { addCityName } from './city.slice';
+import { addCityName, setCurrentCity } from './city.slice';
 import { IPINFO_TOKEN } from '../config';
 
 interface IpInfoResponse {
@@ -24,7 +24,8 @@ export const getCityByLocation = () => async (dispatch: AppDispatch) => {
       return;
     }
 
-    dispatch(addCityName(data.city));
+    //dispatch(addCityName(data.city));
+    dispatch(setCurrentCity(data.city));
   } catch (error) {
     console.error('Failed to fetch city', error);
   }
