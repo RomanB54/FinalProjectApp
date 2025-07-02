@@ -7,7 +7,7 @@ import { StoreApp } from '../../store';
 import { useSelector } from 'react-redux';
 import { getCityByLocation } from '../../store/locationThunk';
 import { useAppDispatch } from '../../store/hooks';
-import { fetchWeatherRequest } from '../../store/city.slice';
+import { fetchWeatherRequest, setCurrentCity } from '../../store/city.slice';
 import { useParams, useNavigate } from 'react-router-dom';
 
 export const Layout: React.FC = () => {
@@ -24,6 +24,12 @@ export const Layout: React.FC = () => {
       dispatch(getCityByLocation());
     }
   }, []);
+
+  useEffect(() => {
+    if (city) {
+      dispatch(setCurrentCity(decodeURIComponent(city)));
+    }
+  }, [city, dispatch]);
 
   useEffect(() => {
     if (currentCity && currentCity !== city) {
