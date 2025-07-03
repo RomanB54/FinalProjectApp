@@ -35,11 +35,14 @@ export const Layout: React.FC = () => {
   }, [city, currentCity, dispatch]);
 
   useEffect(() => {
+    console.log('Navigation effect:', { currentCity, city });
     if (
       currentCity &&
+      currentCity.trim() !== '' &&
       (!city ||
         decodeURIComponent(city).toLowerCase() !== currentCity.toLowerCase())
     ) {
+      console.log('Navigating to city URL:', currentCity);
       navigate(`/weather/${encodeURIComponent(currentCity)}`, {
         replace: true,
       });
