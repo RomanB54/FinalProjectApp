@@ -7,53 +7,45 @@ import { StoreApp } from '../../store';
 import { useSelector } from 'react-redux';
 import { getCityByLocation } from '../../store/locationThunk';
 import { useAppDispatch } from '../../store/hooks';
-import { fetchWeatherRequest, setCurrentCity } from '../../store/city.slice';
+import {
+  addCityName,
+  fetchWeatherRequest,
+  setCurrentCity,
+} from '../../store/city.slice';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 export const Layout: React.FC = () => {
-  const { city } = useParams<{ city?: string }>();
+  const { currentCity: currentCityParam } = useParams<{
+    currentCity?: string;
+  }>();
   const currentCity = useSelector(
     (state: StoreApp) => state.cities.currentCity,
   );
   const dispatch = useAppDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (city) {
-      const decodedCity = decodeURIComponent(city);
+    if (currentCityParam) {
+      const decodedCity = decodeURIComponent(currentCityParam);
       if (decodedCity.toLowerCase() !== (currentCity || '').toLowerCase()) {
         dispatch(setCurrentCity(decodedCity));
+        dispatch(addCityName(decodedCity));
+        dispatch(fetchWeatherRequest())
       }
     }
-  }, [city, currentCity, dispatch]);
+  }, [currentCityParam, dispatch]);
 
   useEffect(() => {
-    if (!city && !currentCity) {
+    if (!currentCityParam && !currentCity) {
       dispatch(getCityByLocation());
     }
-  }, [city, currentCity, dispatch]);
-
-  useEffect(() => {
-    console.log('Navigation effect:', { currentCity, city });
-    if (
-      currentCity &&
-      currentCity.trim() !== '' &&
-      (!city ||
-        decodeURIComponent(city).toLowerCase() !== currentCity.toLowerCase())
-    ) {
-      console.log('Navigating to city URL:', currentCity);
-      navigate(`/weather/${encodeURIComponent(currentCity)}`, {
-        replace: true,
-      });
-    }
-  }, [currentCity, city, navigate]);
+  }, [currentCityParam, currentCity]);
 
   useEffect(() => {
     if (currentCity) {
       dispatch(fetchWeatherRequest());
     }
-  }, [currentCity, dispatch]);
+  }, [currentCity]);
 
   return (
     <>

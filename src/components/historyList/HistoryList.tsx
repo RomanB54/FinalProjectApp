@@ -10,7 +10,6 @@ export const HistoryList: React.FC = () => {
   const navigate = useNavigate();
 
   const handleHistoryCityClick = (city: string) => {
-    dispatch(addCityName(city));
     navigate(`/weather/${encodeURIComponent(city)}`, { replace: false });
   };
 

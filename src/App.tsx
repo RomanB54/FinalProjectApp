@@ -1,5 +1,12 @@
 import React, { Suspense, lazy, useEffect } from 'react';
-import { Link, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import {
+  Link,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { StoreApp } from './store';
 
@@ -9,13 +16,24 @@ const About = lazy(() => import('./components/About/About'));
 
 export default function App() {
   const logged = useSelector((state: StoreApp) => state.profile.logged);
+  const currentCity = useSelector(
+    (state: StoreApp) => state.cities.currentCity,
+  );
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    if (logged) {
-      navigate('/weather', { replace: true });
+    if (logged && location.pathname === '/') {
+      if (currentCity && currentCity.trim() !== '') {
+        navigate(`/weather/${encodeURIComponent(currentCity)}`, {
+          replace: true,
+        });
+      } else {
+        console.log('App3', location.pathname);
+        navigate('/weather', { replace: true });
+      }
     }
-  }, [logged, navigate]);
+  }, [logged]);
 
   return (
     <div className="weather-app">
@@ -40,7 +58,7 @@ export default function App() {
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<SignIn />} />
-          <Route path="/weather/:city?" element={<Layout />} />
+          <Route path="/weather/:currentCity?" element={<Layout />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

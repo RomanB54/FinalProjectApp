@@ -10,7 +10,7 @@ const rootElement = document.getElementById('root')!;
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <Provider store={store}>
-    <BrowserRouter basename="/FinalProjectApp">
+    <BrowserRouter>
       <AuthStateListener />
       <App />
     </BrowserRouter>
