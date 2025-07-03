@@ -10,25 +10,24 @@ export const HistoryList: React.FC = () => {
   const navigate = useNavigate();
 
   const handleHistoryCityClick = (city: string) => {
-    dispatch(addCityName(city));
-    navigate(`/weather/${encodeURIComponent(city)}`);
+    navigate(`/weather/${encodeURIComponent(city)}`, { replace: false });
   };
-
-  const citiesList = history.map((city, index) => (
-    <li
-      key={`${city}-${index}`}
-      className="li-history"
-      onClick={() => handleHistoryCityClick(city)}
-      style={{ cursor: 'pointer' }}
-    >
-      {city}
-    </li>
-  ));
 
   return (
     <div className="history-card">
       <div className="header-page">History</div>
-      <ul className="history-city">{citiesList}</ul>
+      <ul className="history-city">
+        {history.map((city, index) => (
+          <li
+            key={`${city}-${index}`}
+            className="li-history"
+            onClick={() => handleHistoryCityClick(city)}
+            style={{ cursor: 'pointer' }}
+          >
+            {city}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

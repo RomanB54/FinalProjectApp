@@ -13,7 +13,7 @@ const config: Configuration = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/FinalProjectApp/',
+    publicPath: '/',
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
@@ -34,7 +34,9 @@ const config: Configuration = {
   },
   plugins: [new HtmlWebpackPlugin({ template: 'public/index.html' })],
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: '/index.html',
+    },
     static: {
       directory: path.join(__dirname, 'dist'),
       publicPath: '/',

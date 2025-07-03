@@ -66,7 +66,7 @@ export const SignIn: FC = () => {
         dispatch(changeLogin(username));
         dispatch(changeEmail(userData.user.email || ''));
         dispatch(changeLogged(true));
-        navigate('/Weather');
+        navigate('/weather');
       } else {
         const q = query(
           collection(db, 'users'),
@@ -82,7 +82,7 @@ export const SignIn: FC = () => {
         dispatch(changeLogin(login));
         dispatch(changeEmail(userEmail));
         dispatch(changeLogged(true));
-        navigate('/Weather');
+        navigate('/weather');
       }
     } catch (error: unknown) {
       if (error instanceof Error) {

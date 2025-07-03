@@ -79,8 +79,7 @@ export const citiesSlice = createSlice({
 
     addCityName: (state, action: PayloadAction<string>) => {
       const cityName = action.payload;
-      state.currentCity = cityName;
-      state.historyList = state.historyList.filter((city) => city !== cityName);
+      state.historyList = state.historyList.filter((c) => c !== cityName);
       state.historyList.unshift(cityName);
 
       if (state.historyList.length > 10) {
@@ -90,6 +89,9 @@ export const citiesSlice = createSlice({
     setHistoryList: (state, action: PayloadAction<string[]>) => {
       state.historyList = action.payload;
     },
+    setCurrentCity: (state, action: PayloadAction<string>) => {
+      state.currentCity = action.payload;
+    },
   },
 });
 
@@ -97,6 +99,7 @@ export const cityReducer = citiesSlice.reducer;
 
 export const {
   addCityName,
+  setCurrentCity,
   fetchWeatherRequest,
   fetchWeatherSuccess,
   fetchWeatherFailure,
