@@ -20,21 +20,16 @@ export const Layout: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('Layout: location changed:', location.pathname);
-  }, [location]);
-
-  useEffect(() => {
     if (city) {
-      console.log('Layout: URL city param:', city);
-      dispatch(setCurrentCity(decodeURIComponent(city)));
+      const decodedCity = decodeURIComponent(city);
+      if (decodedCity.toLowerCase() !== (currentCity || '').toLowerCase()) {
+        dispatch(setCurrentCity(decodedCity));
+      }
     }
-  }, [city, dispatch]);
+  }, [city, currentCity, dispatch]);
 
   useEffect(() => {
     if (!city && !currentCity) {
-      console.log(
-        'Layout: No city in URL or state, getting city by location...',
-      );
       dispatch(getCityByLocation());
     }
   }, [city, currentCity, dispatch]);
@@ -53,7 +48,6 @@ export const Layout: React.FC = () => {
 
   useEffect(() => {
     if (currentCity) {
-      console.log('Layout: Fetching weather for', currentCity);
       dispatch(fetchWeatherRequest());
     }
   }, [currentCity, dispatch]);
